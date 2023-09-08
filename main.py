@@ -1,7 +1,4 @@
-"""
-Python Concepts I Wish I Knew Way Earlier
-source -> https://levelup.gitconnected.com/20-python-concepts-i-wish-i-knew-way-earlier-573cd189c183
-"""
+"""Python Concepts I Wish I Knew Way Earlier"""
 from unittest import TestCase
 from typing import Any
 from multiprocessing import Pool
@@ -9,11 +6,13 @@ from dog import Dog
 
 
 # See multiprocessing below 👇😉
-def your_funtion(x: int) -> int:
-    return x**2
+def your_funtion(number: int) -> int:
+    """Your Function"""
+    return number**2
 
 
-square = lambda x: x**2
+# pylint: disable=unnecessary-lambda-assignment
+square = lambda number: number**2
 
 
 class Test(TestCase):
@@ -134,7 +133,10 @@ class Test(TestCase):
 
     # Break vs continue vs pass
     def test_break_continue_pass(self):
+        """Break vs continue vs pass"""
+
         def my_break(digits: list[int]) -> list[int]:
+            """Break"""
             my_results: list[int] = []
             for digit in digits:
                 if digit == 3:
@@ -143,6 +145,7 @@ class Test(TestCase):
             return my_results
 
         def my_continue(digits: list[int]) -> list[int]:
+            """Continue"""
             my_results: list[int] = []
             for digit in digits:
                 if digit == 3:
@@ -151,6 +154,7 @@ class Test(TestCase):
             return my_results
 
         def my_pass(digits: list[int]) -> list[int]:
+            """Pass"""
             my_results: list[int] = []
             for digit in digits:
                 if digit == 3:
@@ -166,7 +170,10 @@ class Test(TestCase):
 
     # Try, except and finally blocks
     def test_try_expect_finally(self):
+        """Try, except and finally blocks"""
+
         def my_try_expect(digit: int) -> float | str:
+            """Try, Except"""
             try:
                 my_result: float = 1 / digit
                 return my_result
@@ -174,13 +181,14 @@ class Test(TestCase):
                 return "Zero Division Error !"
 
         def my_try_expect_finally(digit: int) -> float | str:
+            """Try, Except and Finally"""
             try:
                 my_result: float = 1 / digit
                 return my_result
             except ZeroDivisionError:
                 return "Error"
             finally:
-                return "Finally Pouet..."
+                return "Finally Pouet..."  # pylint: disable=lost-exception
 
         self.assertEqual(first=my_try_expect(digit=2), second=1 / 2)
         self.assertEqual(first=my_try_expect(digit=0), second="Zero Division Error !")
@@ -190,7 +198,11 @@ class Test(TestCase):
 
     # Decorators
     def test_decorators(self):
+        """Decorators"""
+
         def add_exclamation_mark(your_function):
+            """Add Exclamation Mark"""
+
             def inner(*args, **kwargs):
                 return f"{your_function(*args, **kwargs)}!"
 
@@ -206,18 +218,21 @@ class Test(TestCase):
 
     # Generators + the ‘yield’ Keyword
     def test_generators_the_yeild_keyword(self):
+        """Generators + the ‘yield’ Keyword"""
+
         def simple_generator():
             yield "apple"
             yield "orange"
             yield "pear"
 
         self.assertEqual(
-            first=[fruit for fruit in simple_generator()],
+            first=list(simple_generator()),
             second=["apple", "orange", "pear"],
         )
 
     # Method chaining
     def test_method_chaining(self):
+        """Method chaining"""
         sentence: str = " APPLE ORANGE PEAR "
         self.assertEqual(
             first=sentence.strip().lower().split(), second=["apple", "orange", "pear"]
@@ -225,41 +240,55 @@ class Test(TestCase):
 
     # Lambda functions
     def test_lambda_functions(self):
-        def add(x: int, y: int):
-            return x + y
+        """Lambda functions"""
+
+        def add(int_1: int, int_2: int):
+            return int_1 + int_2
 
         def hello(name: str):
             return f"Hello {name}"
 
-        def test(a: int, b: int, c: int, d: int):
-            return (a + b) / (c - d)
+        def test(int_1: int, int_2: int, int_3: int, int_4: int):
+            return (int_1 + int_2) / (int_3 - int_4)
 
-        add_lambda = lambda x, y: x + y
+        add_lambda = lambda int_1, int_2: int_1 + int_2
         hello_lambda = lambda name: f"Hello {name}"
-        test_lambda = lambda a, b, c, d: (a + b) / (c - d)
+        test_lambda = lambda int_1, int_2, int_3, int_4: (int_1 + int_2) / (
+            int_3 - int_4
+        )
 
-        self.assertEqual(first=add(x=1, y=2), second=add_lambda(x=1, y=2))
+        self.assertEqual(
+            first=add(int_1=1, int_2=2), second=add_lambda(int_1=1, int_2=2)
+        )
         self.assertEqual(first=hello(name="Tim"), second=hello_lambda(name="Tim"))
         self.assertEqual(
-            first=test(a=1, b=2, c=3, d=4), second=test_lambda(a=1, b=2, c=3, d=4)
+            first=test(int_1=1, int_2=2, int_3=3, int_4=4),
+            second=test_lambda(int_1=1, int_2=2, int_3=3, int_4=4),
         )
 
     # Raise and custom exceptions
     def test_raise_custom_exceptions(self):
+        """Raise and custom exceptions"""
+
         class ScoreException(Exception):
+            """ScoreException Class"""
+
             def __init__(self):
                 super().__init__("score cannot be higher than 100")
 
         score: int = 150
         with self.assertRaises(expected_exception=Exception):
             if score > 100:
+                # pylint: disable=broad-exception-raised
                 raise Exception("Score cannot be higher than 100!")
         with self.assertRaises(expected_exception=ScoreException):
             if score > 100:
                 raise ScoreException()
 
-    # Multiprocessing in Python
+    # Multiprocessing
     def test_multiprocessing(self):
+        """Multiprocessing"""
+
         def run_pool(my_list=list[int]) -> list[int]:
             with Pool(processes=10) as pool:
                 return pool.map(func=your_funtion, iterable=my_list)
